@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft 1.20.1 玩家自救指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #0e1c2c;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        /* 顶部导航栏 */
+        header {
+            background: #0a1322;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            font-weight: bold;
+            animation: bounce 2s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #4CAF50;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #4CAF50;
+            left: 0;
+            bottom: -5px;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* 主内容区 */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            background: #0d1827;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        h1, h2 {
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 2rem 0;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px #050f1c;
+        }
+
+        h2 {
+            border-left: 3px solid #4CAF50;
+            padding-left: 0.8rem;
+        }
+
+        /* 折叠菜单 */
+        .toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: #0a1322;
+                padding: 1rem;
+                gap: 1.5rem;
+            }
+
+            .toggle {
+                display: block;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+        }
+
+        /* 按钮样式 */
+        .cta-btn {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* 代码块样式 */
+        pre {
+            background: #1a2335;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* 目录样式 */
+        .toc {
+            background: #0d1827;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .toc a {
+            color: #8bc34a;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .toc a:hover {
+            color: #4CAF50;
+        }
+
+        .toc a::before {
+            content: '→';
+            margin-right: 0.5rem;
+            color: #4CAF50;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toc a:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">MINECRAFT HELP</div>
+            <div class="toggle" onclick="toggleMenu()">&#9776;</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#connection">连接问题</a></li>
+                <li><a href="#memory">内存问题</a></li>
+                <li><a href="#mods">模组冲突</a></li>
+                <li><a href="#version">版本问题</a></li>
+                <li><a href="#world">地图修复</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Minecraft 1.20.1 玩家自救指南</h1>
+
+        <div class="toc">
+            <h2>目录</h2>
+            <ul>
+                <li><a href="#connection">连接类问题</a></li>
+                <li><a href="#memory">内存不足崩溃</a></li>
+                <li><a href="#mods">模组冲突排查</a></li>
+                <li><a href="#version">版本不兼容</a></li>
+                <li><a href="#world">地图文件修复</a></li>
+            </ul>
+        </div>
+
+        <section id="connection">
+            <h2>一、连接类问题</h2>
+            <h3>1. 无法连接服务器</h3>
+            <ul>
+                <li>检查服务器地址是否正确（例：<code>mc.example.com:25565</code>）</li>
+                <li>重启路由器或切换网络</li>
+                <li>关闭防火墙/杀毒软件测试</li>
+            </ul>
+
+            <h3>2. 频繁掉线</h3>
+            <p>操作：</p>
+            <ul>
+                <li>降低视距至6以下（设置→视频→视距）</li>
+                <li>关闭后台程序释放网络（任务管理器快捷键：<code>Ctrl+Shift+Esc</code>）</li>
+            </ul>
+        </section>
+
+        <section id="memory">
+            <h2>二、内存不足崩溃</h2>
+            <h3>手动释放内存</h3>
+            <ol>
+                <li>关闭占内存程序（如浏览器、视频软件）</li>
+                <li>调整游戏内存分配：</li>
+                <pre>启动器→启动选项→JVM参数修改 <code>-Xmx4G</code>（建议不超过总内存70%）</pre>
+            </ol>
+
+            <h3>清理缓存</h3>
+            <p>路径：<code>%appdata%\.minecraft\cache</code>，删除所有文件后重启游戏</p>
+        </section>
+
+        <section id="mods">
+            <h2>三、模组冲突排查</h2>
+            <h3>逐步禁用模组</h3>
+            <p>操作步骤：</p>
+            <ol>
+                <li>进入游戏根目录 <code>mods</code> 文件夹</li>
+                <li>分批移动模组到其他文件夹，每次启动测试</li>
+                <li>定位冲突模组后检查版本兼容性</li>
+            </ol>
+
+            <h3>版本检查</h3>
+            <p>确保模组支持 <strong>1.20.1</strong> 和对应加载器（Forge/Fabric）</p>
+        </section>
+
+        <section id="version">
+            <h2>四、版本不兼容</h2>
+            <h3>更新客户端</h3>
+            <p>通过启动器强制更新至 <strong>1.20.1</strong> 版本</p>
+
+            <h3>存档升级</h3>
+            <p>备份旧存档后，用新版本直接打开尝试自动升级</p>
+        </section>
+
+        <section id="world">
+            <h2>五、地图文件修复</h2>
+            <h3>简单修复法</h3>
+            <ol>
+                <li>备份 <code>saves</code> 文件夹中的世界</li>
+                <li>创建同名新存档后退出</li>
+                <li>复制旧世界 <code>region</code> 文件夹覆盖新存档</li>
+            </ol>
+
+            <h3>工具修复（进阶）</h3>
+            <p>使用 <a href="https://github.com/toolbox4minecraft/RegionFixer" target="_blank" class="cta-btn">Region Fixer</a> 修复损坏区块</p>
+        </section>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
